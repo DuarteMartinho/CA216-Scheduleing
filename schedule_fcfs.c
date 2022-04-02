@@ -10,11 +10,19 @@ struct node *head = NULL;
 
 void add(char *name, int priority, int burst) { // add a task to the list
     struct task *task = malloc(sizeof(struct task)); // allocate memory for the task
-    task->name = name; // set the task's name
-    task->priority = priority; // set the task's priority
-    task->burst = burst; // set the task's burst time
+    if (priority > MAX_PRIORITY || priority < MIN_PRIORITY) {
+        printf("Invalid priority.\n");
+        exit(1);
+    } else if (burst < 1) {
+        printf("Invalid burst time.\n");
+        exit(1);
+    } else {
+        task->name = name; // set the task's name
+        task->priority = priority; // set the task's priority
+        task->burst = burst; // set the task's burst time
 
-    insert(&head, task); // insert the task into the list
+        insert(&head, task); // insert the task into the list
+    }
 }
 
 void reverse(struct node **head)
@@ -47,7 +55,7 @@ void schedule() {
         
         currWaitTime = prevWaitTime + prevBurst;
         totalWaitTime += currWaitTime;
-        totalTurnaroundTime += currWaitTime + temp->task->burst; 
+        totalTurnaroundTime += currWaitTime + temp->task->burst;
         prevWaitTime = currWaitTime;
         prevBurst = temp->task->burst;
 
