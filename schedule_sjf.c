@@ -50,8 +50,8 @@ void schedule() {
     sortBurst(&head); // sort the list by burst time
     // traverse(head); // print the list after sorting by burst time
    
-    int numProcesses = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
-    int prevWaitTime = 0, currWaitTime = 0, prevBurst = 0;
+    int numProcesses = 0;
+    float prevWaitTime = 0, currWaitTime = 0, prevBurst = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
     float avg = 0, avgTurnTime = 0;
 
     struct node *temp = head; // temp is the current node setting it to the head
@@ -71,7 +71,7 @@ void schedule() {
     avg = totalWaitTime / numProcesses; // calculate the average wait time
     avgTurnTime = totalTurnaroundTime / numProcesses; // calculate the average turnaround time
 
-    printf("Average Wait Time: %.3f. Turnaround time: %.3f\n", avg, avgTurnTime);
+    printf("Average Wait Time: %.3f ms | Turnaround time: %.3f ms\n", avg, avgTurnTime);
 }
 
 /*
