@@ -24,34 +24,28 @@ void add(char *name, int priority, int burst) { // add a task to the list
     }
 }
 
-void sortBurst(struct node **head) {
-    struct node* current = *head;
-    struct node* next;
-    
-    // sort the list by burst time in ascending order
-    while (current != NULL) { // while the list is not empty
-        next = current->next; // saves the next node to the current node
-        while (next != NULL) { // while the next node is not empty (this loop will look for the next lowest burst time)
-            if (current->task->burst > next->task->burst) { // if the current burst time is greater than the next burst time
-                // swap tasks
-                struct task *tmp = current->task; // saves the current task in temp variable
-                current->task = next->task; // sets the current task (saved task) to the next task
-                next->task = tmp; // sets the next task to the temp task
-            }
-            next = next->next; // move to the next node in the list
-        }
-        current = current->next; // moves the current node to the next node
+void reverse(struct node **head)
+{
+    struct node* prev   = NULL; // defines previous node
+    struct node* current = *head; // sets current node to head node
+    struct node* next; // defines next node
+    while (current != NULL) // while current is not, keeps swapping items until the end of the list
+    {
+        next  = current->next; // next node
+        current->next = prev; // current node points to previous node
+        prev = current; // previous node is current node
+        current = next; // current node is next node
     }
-
+    *head = prev;
 }
 
 void schedule() {
     // traverse(head); // print the list before sorting by burst time
-    sortBurst(&head); // sort the list by burst time
+    reverse(&head); // sort the list by priority
     // traverse(head); // print the list after sorting by burst time
 
-    int numProcesses = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
-    int prevWaitTime = 0, currWaitTime = 0, prevBurst = 0;
+    int numProcesses = 0;
+    float prevWaitTime = 0, currWaitTime = 0, prevBurst = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
     float avg = 0, avgTurnTime = 0;
 
     while (head != NULL) { // while the list is not empty
@@ -98,7 +92,7 @@ void schedule() {
     avg = totalWaitTime / numProcesses; // calculate the average wait time
     avgTurnTime = totalTurnaroundTime / numProcesses; // calculate the average turnaround time
 
-    printf("Average Wait Time: %.3f. Turnaround time: %.3f\n", avg, avgTurnTime);
+    printf("Average Wait Time: %.3f ms | Turnaround time: %.3f ms\n", avg, avgTurnTime);
 
 }
 
