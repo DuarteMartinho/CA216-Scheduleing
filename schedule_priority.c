@@ -33,7 +33,7 @@ void sortPriority(struct node **head) {
     while (current != NULL) { // while the list is not empty
         next = current->next; // saves the next node to the current node
         while (next != NULL) { // while the next node is not empty (this loop will look for the next lowest priority)
-            if (current->task->priority < next->task->priority) { // if the current priority is greater than the next priority
+            if (current->task->priority <= next->task->priority) { // if the current priority is greater than the next priority
                 // swap tasks
                 struct task *tmp = current->task; // saves the current task in temp variable
                 current->task = next->task; // sets the current task (saved task) to the next task
@@ -51,8 +51,8 @@ void schedule() {
     sortPriority(&head); // sort the list by priority
     // traverse(head); // print the list after sorting by priority
 
-    int numProcesses = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
-    int prevWaitTime = 0, currWaitTime = 0, prevBurst = 0;
+    int numProcesses = 0;
+    float prevWaitTime = 0, currWaitTime = 0, prevBurst = 0, totalWaitTime = 0, totalTurnaroundTime = 0;
     float avg = 0, avgTurnTime = 0;
 
     struct node *temp = head; // temp is the current node setting it to the head
@@ -73,7 +73,7 @@ void schedule() {
     avg = totalWaitTime / numProcesses; // calculate the average wait time
     avgTurnTime = totalTurnaroundTime / numProcesses; // calculate the average turnaround time
 
-    printf("Average Wait Time: %.3f. Turnaround time: %.3f\n", avg, avgTurnTime);
+    printf("Average Wait Time: %.3f ms | Turnaround time: %.3f ms\n", avg, avgTurnTime);
 }
 
 /*
